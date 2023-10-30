@@ -20,6 +20,7 @@ const s = StyleSheet.create({
   backIcon: {
     alignSelf: 'flex-start',
     flexDirection: 'row',
+    height: 50,
   },
   backText: {
     color: Colors.BLACK,

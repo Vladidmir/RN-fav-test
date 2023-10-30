@@ -1,4 +1,4 @@
-import React, {FC, memo, useEffect, useState} from 'react';
+import React, {FC, memo, useEffect, useState, useMemo} from 'react';
 import {
   View,
   Text,
@@ -49,14 +49,30 @@ const DetailsScreenFunc: FC<Props> = ({route, navigation}) => {
 
   const {nameHomeWorld, species} = details;
 
-  const renderDetail = (label: string, value: string) => {
-    return (
-      <Text style={s.titleInfo} key={label}>
-        {`${label} `}
-        <Text style={s.infoTextValue}>{value}</Text>
-      </Text>
-    );
-  };
+  const renderDetail = useMemo(
+    () => (label: string, value: string) => {
+      return (
+        <Text style={s.titleInfo} key={label}>
+          {`${label} `}
+          <Text style={s.infoTextValue}>{value}</Text>
+        </Text>
+      );
+    },
+    [],
+  );
+
+  // To be honest, this is the first time I'm using useMemo for memorizing component .
+  // I usually use it with numbers when there are complex mathematical calculations involved, in order to store values
+  // and prevent unnecessary re-rendering of the component.
+
+  const characterDetails = [
+    {label: 'Species:', value: species},
+    {label: 'Birth Year:', value: data.birth_year},
+    {label: 'Gender:', value: data.gender},
+    {label: 'Weight:', value: data.mass},
+    {label: 'Home World:', value: nameHomeWorld},
+    {label: 'Skin color:', value: data.skin_color},
+  ];
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -66,8 +82,10 @@ const DetailsScreenFunc: FC<Props> = ({route, navigation}) => {
             <TouchableOpacity
               style={s.backIcon}
               onPress={() => navigation.goBack()}>
-              <Icon name="NavigatePrev" size={w(30)} color={''} />
-              <Text style={s.backText}>Go back</Text>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Icon name="NavigatePrev" size={w(30)} color={''} />
+                <Text style={s.backText}>Go back</Text>
+              </View>
             </TouchableOpacity>
             <View style={s.infoWrapper}>
               <Image
@@ -75,12 +93,10 @@ const DetailsScreenFunc: FC<Props> = ({route, navigation}) => {
                 source={require('../../assets/img/crossed-light-swords.jpg')}
               />
               <Text style={s.nameText}>{data.name}</Text>
-              {renderDetail('Species:', species)}
-              {renderDetail('Birth Year:', data.birth_year)}
-              {renderDetail('Gender:', data.gender)}
-              {renderDetail('Weight:', data.mass)}
-              {renderDetail('Home World:', nameHomeWorld)}
-              {renderDetail('Skin color:', data.skin_color)}
+
+              {characterDetails.map(detail =>
+                renderDetail(detail.label, detail.value),
+              )}
             </View>
           </>
         ) : (

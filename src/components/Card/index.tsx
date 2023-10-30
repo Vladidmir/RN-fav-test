@@ -42,7 +42,7 @@ const CardFunc: FC<CardProps> = ({data, favouriteCard}) => {
               source={require('../../assets/img/crossed-light-swords.jpg')}
             />
             <Text style={s.textInfoContainer}>
-              name: <Text style={s.infoText}>{data.name}</Text>
+              <Text style={s.infoText}>{data.name}</Text>
             </Text>
           </View>
           <View style={s.bottomContainer}>

@@ -12,32 +12,31 @@ const ListFansFunc: FC<ListFansProps> = ({
   femaleFans,
   otherFans,
 }) => {
-  const countGender = () => {
-    const counts = {male: 0, female: 0, other: 0};
+  const initialCounts = {male: 0, female: 0, other: 0};
 
-    data.forEach(item => {
-      switch (item.gender) {
-        case 'female':
-          counts.female++;
-          break;
-        case 'male':
-          counts.male++;
-          break;
-        case 'n/a':
-          counts.other++;
-          break;
-        default:
-          break;
-      }
-    });
+  //  I decided to use 'reduce' and set an initial value to avoid starting the calculation from 0 every time
 
+  const counts = data.reduce((acc, item) => {
+    switch (item.gender) {
+      case 'female':
+        acc.female++;
+        break;
+      case 'male':
+        acc.male++;
+        break;
+      case 'n/a':
+        acc.other++;
+        break;
+      default:
+        break;
+    }
+    return acc;
+  }, initialCounts);
+
+  useEffect(() => {
     maleFans(counts.male);
     femaleFans(counts.female);
     otherFans(counts.other);
-  };
-
-  useEffect(() => {
-    countGender();
   }, [data]);
 
   return (

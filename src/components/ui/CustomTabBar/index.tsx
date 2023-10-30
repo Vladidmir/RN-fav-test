@@ -39,7 +39,14 @@ export const CustomTabBar: React.FC<CustomTabBarProps> = ({
 
       return (
         <CustomTabBarButton key={route.key} onPress={onPress}>
-          <Text style={{color: isFocused ? '#007AFF' : '#222'}}>{label}</Text>
+          <Text
+            style={{
+              color: isFocused ? '#007AFF' : '#222',
+              fontSize: 16,
+              fontWeight: '500',
+            }}>
+            {label}
+          </Text>
         </CustomTabBarButton>
       );
     })}
@@ -50,7 +57,7 @@ const s = StyleSheet.create({
   tabBar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 10,
+    paddingVertical: 25,
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#ccc',
